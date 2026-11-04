@@ -9,12 +9,10 @@ namespace ViewModel
 {
     public abstract class BaseDB
     {
-       // protected static string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\nirgo\\source\\repos\\Model\\ViewModel\\ExampleProject.accdb";
-
-
+        // protected static string connectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\\Users\\nirgo\\source\\repos\\Model\\ViewModel\\ExampleProject.accdb";
         protected static string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source="
                       + System.IO.Path.GetFullPath(System.Reflection.Assembly.GetExecutingAssembly().Location
-                      + "/../../../../../ViewModel/ExampleProjectBagrutGrades.accdb");
+                      + "/../../../../../ViewModel/ExampleProject.accdb");
 
 
         protected static OleDbConnection connection;

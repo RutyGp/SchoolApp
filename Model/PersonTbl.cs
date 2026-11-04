@@ -10,15 +10,17 @@ namespace Model
         private string firstName;
         private string lastName;
         private CityTbl livingCity;
+        private bool isActive;
 
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
         public CityTbl LivingCity { get => livingCity; set => livingCity = value; }
+        public bool IsActive { get => isActive; set => isActive = value; }
 
         public override string ToString()
         {
-            return $"{ base.ToString()}  { FirstName} { LastName}"
-                 + $" { LivingCity} ";
+            return $"{ base.ToString()} , { FirstName} { LastName}"
+                 + $"Lives in : { LivingCity}. active : {IsActive} ";
         }
     }
 }
