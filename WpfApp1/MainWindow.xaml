@@ -1,0 +1,77 @@
+﻿<!--<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+
+    </Grid>
+</Window>-->
+<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="School App" Height="450" Width="800"
+        TextElement.FontWeight="Regular"
+    TextElement.FontSize="13"
+TextOptions.TextFormattingMode="Ideal"
+TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+FontFamily="{materialDesign:MaterialDesignFont}">
+
+    <!--TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"-->
+     
+    <!-- התאמת הגופן והסגנון של ה-Window ל-Material Design -->
+   
+    <Grid >
+        <StackPanel  Width="300" HorizontalAlignment="Center">
+            <Button Content="calculator" Click="OpenCalculator"/>
+            <!-- כותרת -->
+            <TextBlock Text="ברוכים הבאים למערכת" 
+                       Style="{StaticResource MaterialDesignHeadline5TextBlock}" 
+                       HorizontalAlignment="Center" />
+
+            <!-- שדה קלט מעוצב (TextBox) -->
+            <TextBox materialDesign:HintAssist.Hint="הכנס שם משתמש" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+            <!-- כפתור מעוצב (Raised Button) -->
+            <Button Content="תחברות" 
+                    Style="{StaticResource MaterialDesignRaisedButton}" />
+
+            <!-- כפתור עגול עם אייקון (Floating Action Button) -->
+            <Button Style="{StaticResource MaterialDesignFloatingActionButton}" 
+                    HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="Send" Height="24" Width="24" />
+            </Button>
+            <materialDesign:FlipperClassic BackContent="vvvv"  TouchUp="a" Background="Green"/>
+            <materialDesign:Clock CacheMode="BitmapCache" x:Name="clc1" TimeChanged="TC"/>
+            <materialDesign:ComboBoxPopup Background="Red"/>
+            <Calendar 
+          SelectedDate="{Binding MyDate}" />
+            <Button Content="בחר תאריך" 
+        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                <Button.CommandParameter>
+                    <StackPanel Margin="16">
+                        <Calendar  />
+
+                        <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Right" 
+                        Margin="0,16,0,0">
+                            <Button Content="ביטול" 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
+                            <Button Content="אישור" 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

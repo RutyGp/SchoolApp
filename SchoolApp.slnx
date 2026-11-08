@@ -2,4 +2,5 @@
   <Project Path="Model/Model.csproj" />
   <Project Path="Test/Test.csproj" />
   <Project Path="ViewModel/ViewModel.csproj" />
+  <Project Path="WpfApp1/WpfApp1.csproj" />
 </Solution>

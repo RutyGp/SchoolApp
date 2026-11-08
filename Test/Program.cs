@@ -20,3 +20,9 @@ foreach (PersonTbl person in pList)
 }
 
 Console.WriteLine(PersonDb.SelectById(1));
+
+StudentTblList sList = StudentDB.list;
+foreach (StudentTbl student in sList)
+{
+    Console.WriteLine(student);
+}
