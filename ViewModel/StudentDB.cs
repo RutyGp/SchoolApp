@@ -40,7 +40,26 @@ namespace ViewModel
             return StudentDB.list.Find(item => item.Id == id);
         }
 
-
+        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            StudentTbl student = entity as StudentTbl;
+            if (student != null)
+            {
+                cmd.CommandText = $"UPDATE StudentTbl SET tel = @tel WHERE id = @id";
+               
+                cmd.Parameters.AddWithValue("@tel", student.Tel);
+                cmd.Parameters.AddWithValue("@id", student.Id);
+            }
+        }
+        public override void Update(BaseEntity entity)
+        {
+            BaseEntity reqEntity = this.NewEntity();
+            if (entity != null && entity.GetType() == reqEntity.GetType())
+            {
+                updated.Add(new ChangeEntity(this.CreateUpdatedSQL, entity));
+                updated.Add(new ChangeEntity(base.CreateUpdatedSQL, entity));
+            }
+        }
 
     }
 }

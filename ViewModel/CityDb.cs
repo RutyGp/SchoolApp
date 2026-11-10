@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ViewModel
 {
-    public class CityDb :BaseDB
+    public class CityDb : BaseDB
     {
 
         public CityTblList SelectAll()
@@ -36,7 +36,7 @@ namespace ViewModel
         public static CityTbl SelectById(int id)
         {
             CityDb db = new CityDb();
-            if(CityDb.list.Count== 0)
+            if (CityDb.list.Count == 0)
             {
                 CityDb.list = db.SelectAll();
                 return CityDb.list.Find(item => item.Id == id);
@@ -44,6 +44,25 @@ namespace ViewModel
             return CityDb.list.Find(item => item.Id == id);
         }
 
+        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            CityTbl city = entity as CityTbl;   
+            if(city!=null)
+            {
+                cmd.CommandText = "UPDATE CityTbl SET CityName = @CityName WHERE id = @id";
+                cmd.Parameters.AddWithValue("@CityName", city.CityName);
+                cmd.Parameters.AddWithValue("@id", city.Id);
+            }
+        }
 
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
