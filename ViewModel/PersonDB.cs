@@ -43,7 +43,31 @@ namespace ViewModel
         return PersonDb.list.Find(item => item.Id == id);        
     }
 
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            throw new NotImplementedException();
+        }
 
+        protected override void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            throw new NotImplementedException();
+        }
 
-}
+        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            PersonTbl person = entity as PersonTbl;
+            if (person != null)
+             {
+                cmd.CommandText = "UPDATE PersonTbl SET firstName = @firstName," +
+                                  " lastName = @lastName, CityCode = @cityCode," +
+                                  " isActive = @isActive " +
+                                  " WHERE id = @id";
+                cmd.Parameters.AddWithValue("@firstName", person.FirstName);
+                cmd.Parameters.AddWithValue("@lastName", person.LastName);
+                cmd.Parameters.AddWithValue("@cityCode", person.LivingCity?.Id ?? 0);
+                cmd.Parameters.AddWithValue("@isActive", person.IsActive);
+                cmd.Parameters.AddWithValue("@id", person.Id);
+            }
+        }
+    }
 }

@@ -63,103 +63,103 @@ namespace ViewModel
             return entity;
         }
 
-        //// Insert, Update, Delete
-        //protected abstract void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd);
-        //public static List<ChangeEntity> deleted = new List<ChangeEntity>();
+        // Insert, Update, Delete
+        protected abstract void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd);
+        public static List<ChangeEntity> deleted = new List<ChangeEntity>();
 
-        //public virtual void Delete(BaseEntity entity)
-        //{
-        //    BaseEntity reqEntity = this.NewEntity();
-        //    if (entity != null && entity.GetType() == reqEntity.GetType())
-        //    {
-        //        deleted.Add(new ChangeEntity(this.CreateDeletedSQL, entity));
-        //    }
-        //}
+        public virtual void Delete(BaseEntity entity)
+        {
+            BaseEntity reqEntity = this.NewEntity();
+            if (entity != null && entity.GetType() == reqEntity.GetType())
+            {
+                deleted.Add(new ChangeEntity(this.CreateDeletedSQL, entity));
+            }
+        }
 
-        //protected abstract void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd);
-        //public static List<ChangeEntity> inserted = new List<ChangeEntity>();
+        protected abstract void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd);
+        public static List<ChangeEntity> inserted = new List<ChangeEntity>();
 
-        //public virtual void Insert(BaseEntity entity)
-        //{
-        //    BaseEntity reqEntity = this.NewEntity();
-        //    if (entity != null && entity.GetType() == reqEntity.GetType())
-        //    {
-        //        inserted.Add(new ChangeEntity(this.CreateInsertdSQL, entity));
-        //    }
-        //}
+        public virtual void Insert(BaseEntity entity)
+        {
+            BaseEntity reqEntity = this.NewEntity();
+            if (entity != null && entity.GetType() == reqEntity.GetType())
+            {
+                inserted.Add(new ChangeEntity(this.CreateInsertdSQL, entity));
+            }
+        }
 
-        //protected abstract void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd);
-        //public static List<ChangeEntity> updated = new List<ChangeEntity>();
+        protected abstract void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd);
+        public static List<ChangeEntity> updated = new List<ChangeEntity>();
 
-        //public virtual void Update(BaseEntity entity)
-        //{
-        //    BaseEntity reqEntity = this.NewEntity();
-        //    if (entity != null && entity.GetType() == reqEntity.GetType())
-        //    {
-        //        updated.Add(new ChangeEntity(this.CreateUpdatedSQL, entity));
-        //    }
-        //}
+        public virtual void Update(BaseEntity entity)
+        {
+            BaseEntity reqEntity = this.NewEntity();
+            if (entity != null && entity.GetType() == reqEntity.GetType())
+            {
+                updated.Add(new ChangeEntity(this.CreateUpdatedSQL, entity));
+            }
+        }
 
-        //public int SaveChanges()
-        //{
-        //    int records_affected = 0;
+        public int SaveChanges()
+        {
+            int records_affected = 0;
 
-        //    using (OleDbConnection localConn = new OleDbConnection(connectionString))
-        //    {
-        //        localConn.Open();
-        //        using (OleDbTransaction trans = localConn.BeginTransaction())
-        //        {
-        //            using (OleDbCommand localCmd = new OleDbCommand())
-        //            {
-        //                localCmd.Connection = localConn;
-        //                localCmd.Transaction = trans;
+            using (OleDbConnection localConn = new OleDbConnection(connectionString))
+            {
+                localConn.Open();
+                using (OleDbTransaction trans = localConn.BeginTransaction())
+                {
+                    using (OleDbCommand localCmd = new OleDbCommand())
+                    {
+                        localCmd.Connection = localConn;
+                        localCmd.Transaction = trans;
 
-        //                try
-        //                {
-        //                    foreach (var entity in inserted)
-        //                    {
-        //                        localCmd.Parameters.Clear();
-        //                        entity.CreateSql(entity.Entity, localCmd);
-        //                        records_affected += localCmd.ExecuteNonQuery();
+                        try
+                        {
+                            foreach (var entity in inserted)
+                            {
+                                localCmd.Parameters.Clear();
+                                entity.CreateSql(entity.Entity, localCmd);
+                                records_affected += localCmd.ExecuteNonQuery();
 
-        //                        localCmd.Parameters.Clear();
-        //                        localCmd.CommandText = "Select @@Identity";
-        //                        entity.Entity.Id = (int)localCmd.ExecuteScalar();
-        //                    }
+                                localCmd.Parameters.Clear();
+                                localCmd.CommandText = "Select @@Identity";
+                                entity.Entity.Id = (int)localCmd.ExecuteScalar();
+                            }
 
-        //                    foreach (var entity in updated)
-        //                    {
-        //                        localCmd.Parameters.Clear();
-        //                        entity.CreateSql(entity.Entity, localCmd);
-        //                        records_affected += localCmd.ExecuteNonQuery();
-        //                    }
+                            foreach (var entity in updated)
+                            {
+                                localCmd.Parameters.Clear();
+                                entity.CreateSql(entity.Entity, localCmd);
+                                records_affected += localCmd.ExecuteNonQuery();
+                            }
 
-        //                    foreach (var entity in deleted)
-        //                    {
-        //                        localCmd.Parameters.Clear();
-        //                        entity.CreateSql(entity.Entity, localCmd);
-        //                        records_affected += localCmd.ExecuteNonQuery();
-        //                    }
+                            foreach (var entity in deleted)
+                            {
+                                localCmd.Parameters.Clear();
+                                entity.CreateSql(entity.Entity, localCmd);
+                                records_affected += localCmd.ExecuteNonQuery();
+                            }
 
-        //                    trans.Commit();
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    trans.Rollback();
-        //                    throw new Exception(ex.Message + "\n SQL:" + localCmd.CommandText);
-        //                }
-        //                finally
-        //                {
-        //                    inserted.Clear();
-        //                    updated.Clear();
-        //                    deleted.Clear();
-        //                }
-        //            }
-        //        }
-        //    }
+                            trans.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            trans.Rollback();
+                            throw new Exception(ex.Message + "\n SQL:" + localCmd.CommandText);
+                        }
+                        finally
+                        {
+                            inserted.Clear();
+                            updated.Clear();
+                            deleted.Clear();
+                        }
+                    }
+                }
+            }
 
-        //    return records_affected;
-        //}
+            return records_affected;
+        }
     }
 }
 

@@ -10,7 +10,8 @@ namespace ViewModel
     {
         public StudentTblList SelectAll()
         {
-            string sql = "SELECT PersonTBL.id, PersonTBL.firstName, PersonTBL.lastNAme, PersonTBL.cityCode, PersonTBL.isActive, StudentTbl.tel " +
+            string sql = "SELECT PersonTBL.id, PersonTBL.firstName, PersonTBL.lastNAme, " +
+                         "PersonTBL.cityCode, PersonTBL.isActive, StudentTbl.tel " +
                          "FROM  (PersonTBL INNER JOIN StudentTbl ON PersonTBL.id = StudentTbl.id)";
             return new StudentTblList(base.Select(sql));
         }
@@ -40,7 +41,26 @@ namespace ViewModel
             return StudentDB.list.Find(item => item.Id == id);
         }
 
-
+        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            StudentTbl student = entity as StudentTbl;
+            if (student != null)
+            {
+                cmd.CommandText = "UPDATE StudentTbl SET tel = @tel WHERE id = @id";
+                cmd.Parameters.AddWithValue("@tel", student.Tel);
+                cmd.Parameters.AddWithValue("@id", student.Id);
+            }
+        }
+        public override void Update(BaseEntity entity)
+        {
+            StudentTbl student = entity as StudentTbl;
+            if (student != null)
+            {
+                updated.Add(new ChangeEntity(this.CreateUpdatedSQL, entity));
+                updated.Add(new ChangeEntity(base.CreateUpdatedSQL, entity));
+            }
+            
+        }
 
     }
 }

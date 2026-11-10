@@ -44,6 +44,41 @@ namespace ViewModel
             return CityDb.list.Find(item => item.Id == id);
         }
 
+        protected override void CreateDeletedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            CityTbl city = entity as CityTbl;
+            if (city != null)
+            {
+                cmd.CommandText = "DELETE FROM CityTbl WHERE id = @id";
+                cmd.Parameters.AddWithValue("@id", city.Id);
+            }
+        }
 
+        protected override void CreateInsertdSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            CityTbl city = entity as CityTbl;
+            if (city != null)
+            {
+                cmd.CommandText = "INSERT INTO CityTbl (CityName) VALUES (@cityName)";
+                cmd.Parameters.AddWithValue("@cityName", city.CityName);
+            }
+        }
+
+        protected override void CreateUpdatedSQL(BaseEntity entity, OleDbCommand cmd)
+        {
+            CityTbl city = entity as CityTbl;
+            if (city != null)
+            {
+                cmd.CommandText = "UPDATE CityTbl SET CityName = @cityName " +
+                                  "WHERE id = @id";
+                cmd.Parameters.AddWithValue("@cityName", city.CityName);
+                cmd.Parameters.AddWithValue("@id", city.Id);
+            }
+        }
     }
 }
+
+        
+
+       
+
